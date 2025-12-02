@@ -6,8 +6,9 @@ import { generateClient } from "aws-amplify/data";
 const client = generateClient<Schema>();
 
 function App() {
-  const { signOut } = useAuthenticator();
+  const { user, signOut } = useAuthenticator();
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  
 
   useEffect(() => {
     client.models.Todo.observeQuery().subscribe({
@@ -24,7 +25,7 @@ function App() {
 
   return (
     <main>
-      <h1>Michael's todo list</h1>
+      <h1>{user?.signInDetails?.loginId}'s awesome todo list</h1>
       <button onClick={createTodo}>+ new</button>
       <button onClick={signOut}>Sign out</button>
       <ul>
